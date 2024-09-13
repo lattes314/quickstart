@@ -1,0 +1,342 @@
+% -*- TeX:EN -*-
+% **** -----------------------------------------------------------
+% LaTeX 2e amsart ************************************************
+% **** -----------------------------------------------------------
+\documentclass[11pt,a4paper]{amsart}
+
+% #region -------------------- PACKAGES --------------------
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm,amscd,yhmath,esint}
+\usepackage[left=25mm,top=30mm,bottom=25mm,right=25mm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[fixlanguage]{babelbib}
+\usepackage{cmap}            % make the PDF file "searchable and copyable"
+\usepackage[pdfdisplaydoctitle = true,
+    colorlinks = true,
+    urlcolor = blue,
+    citecolor = blue,
+    linkcolor = blue,
+    pdfstartview = FitH,
+    pdfpagemode = UseNone,
+    bookmarksnumbered = true,
+    unicode=true]{hyperref}  % to make a pdf file with hyperlinks and bookmarks
+\usepackage{hyperxmp}
+\usepackage{bm}
+\usepackage{calrsfs}
+\usepackage[all]{xy}
+\usepackage{float}
+\usepackage{tensor}
+\usepackage{todonotes}
+\usepackage{cite}           % Better management of referencing
+\usepackage{dutchcal}
+\usepackage{enumitem}       % Better numbering items (proposition referencing)
+\usepackage{aliascnt}       % Counter for referencing theorem like environment
+\usepackage{ifthen}         % Conditional macro for the NewTheorem function
+
+% #endregion
+
+% FIGURES --------------------------------------------------------
+\graphicspath{{figures/}}
+
+% #region -------------------- SETUP PDF --------------------
+
+\hypersetup{
+    pdftitle={The Haar measure in solid mechanics},
+    pdfauthor={Clément Ecker and Boris Kolev},
+    pdfsubject={MSC 2020: 74B20; 74A05; 74A20; 58A10},
+    pdfkeywords={Haar measure; Lie groups; Invariant theory; Mathematics of solid mechanics},
+    pdflang=fr
+}
+% #endregion
+
+% #region -------------------- TO DO NOTES --------------------
+
+\newcommand{\todoBK}[1]{\todo[inline,color = blue!40]{BK : #1}}
+\newcommand{\todoRD}[1]{\todo[inline,color = violet!40]{RD : #1}}
+\newcommand{\todoCE}[1]{\todo[inline,color = orange!40]{CE : #1}}
+
+\newcommand{\red}[1]{\textcolor[rgb]{1.00,0.00,0.00}{#1}}
+\newcommand{\blue}[1]{\textcolor[rgb]{0.00,0.00,1.00}{#1}}
+
+% #endregion
+
+% #region -------------------- THEOREMS --------------------
+
+\newcommand{\NewTheorem}[4][none]{
+    % Special Macro for the definition of theorem definition : (#1 is the optionnal argument)
+    %   #2 is the name of the environement ;
+    %   #3 is the name that will be displayed ;
+    %   #1 and #4 are used for the numbering :
+    %       if #1 is not given (none) #4 is used as numbered_like (new counter)
+    %       if #1 is given (not none) it is used as a numbered_within and #4 will be ignored ;
+
+    % TYPICAL EXAMPLE :
+    %   \NewTheorem[section]{thm}{Theorem}{}    for creating the main thm environment numbered within sections
+    %   \NewTheorem{prop}{Proposition}{thm}     for creating a prop environment numbered like the thm environment
+
+    \ifthenelse{\equal{#1}{none}}{ % If no optional argument is given
+        \newaliascnt{#2}{#4}
+        \newtheorem{#2}[#2]{#3}
+        \aliascntresetthe{#2}
+    }{ % If it is given
+        \newtheorem{#2}{#3}[#1]
+    }
+    \expandafter\def\csname #2autorefname\endcsname{#3} % Style the referencing
+}
+
+\NewTheorem[section]{thm}{Theorem}{}
+
+\NewTheorem{cor}{Corollary}{thm}
+\NewTheorem{lem}{Lemma}{thm}
+\NewTheorem{prop}{Proposition}{thm}
+
+\theoremstyle{definition}
+\NewTheorem{defn}{Definition}{thm}
+\NewTheorem{exam}{Example}{thm}
+
+\theoremstyle{remark}
+\NewTheorem{rem}{Remark}{thm}
+
+\numberwithin{equation}{section}
+
+% #endregion
+
+% #region -------------------- MATHS --------------------
+
+% Number Sets
+\newcommand{\NN}{\mathbb{N}}                % Natural numbers
+\newcommand{\ZZ}{\mathbb{Z}}                % Relative integers
+\newcommand{\QQ}{\mathbb{Q}}                % Rational numbers
+\newcommand{\RR}{\mathbb{R}}                % Real numbers
+\newcommand{\CC}{\mathbb{C}}                % Complex numbers
+
+% Tensor spaces
+\newcommand{\VV}{\mathbb{V}}                            % Stable tensor space
+\newcommand{\Ela}{\mathbb{E}\mathrm{la}}                % Space of elasticity tensors
+\newcommand{\Piez}{\mathbb{P}\mathrm{iez}}              % Space of Piezo-electricity tensors
+\newcommand{\Magn}{\mathbb{M}\mathrm{agn}}              % Space of Piezo-magnetism tensors
+\newcommand{\HH}{\mathbb{H}}                            % Space of harmonic tensors
+\newcommand{\TT}{\mathbb{T}}                            % Space of covariant tensors
+\newcommand{\PP}{\mathbb{P}}                            % Space of covariant pseudo-tensors
+\newcommand{\Sym}{\mathbb{S}}                           % Space of totally symmetric covariant tensors
+\newcommand{\Pn}[1]{\mathcal{P}_{#1}}                   % Space of homogeneous polynomials
+\newcommand{\Hn}[1]{\mathcal{H}^{#1}}                   % Space of Harmonic polynomials
+
+% Finite Groups
+\newcommand{\octa}{\mathbb{O}}              % Cubic (octahedral) group
+\newcommand{\ico}{\mathbb{I}}               % Icosahedral group
+\newcommand{\tetra}{\mathbb{T}}             % tetrahedral group
+\newcommand{\DD}{\mathbb{D}}                % Dihedral group
+\newcommand{\perm}{\mathfrak{S}}            % permutations group
+\newcommand{\triv}{\mathds{1}}		        % trivial group
+
+% Lie Groups
+\newcommand{\GL}{\mathrm{GL}}               % General linear group
+\newcommand{\SL}{\mathrm{SL}}               % Special linear group
+\newcommand{\PSL}{\mathrm{PSL}}             % Projective special linear group
+\newcommand{\PGL}{\mathrm{PGL}}             % Projective general linear group
+\newcommand{\GA}{\mathrm{GA}}               % General affine group
+\newcommand{\OO}{\mathrm{O}}                % Orthogonal group
+\newcommand{\SO}{\mathrm{SO}}               % Special orthogonal group
+\newcommand{\SU}{\mathrm{SU}}               % Special unitary group
+\newcommand{\Sp}{\mathrm{Sp}}               % Symplectic group
+\newcommand{\Aff}{\mathrm{Aff}}             % Manifold of Affine mappings
+\newcommand{\Euc}{\mathrm{SE}}               % Euclidean group
+\newcommand{\Diff}{\mathrm{Diff}}           % Diffeomorphisms group
+\newcommand{\SDiff}{\mathrm{SDiff}}         % Special diffeomorphisms group
+\newcommand{\Isom}{\mathrm{Isom}}           % Group of Riemannian isometries
+\newcommand{\Met}{\mathrm{Met}}             % Manifold of Riemannian metrics
+\newcommand{\Vol}{\mathrm{Vol}}             % Manifold of volume forms
+\newcommand{\Emb}{\mathrm{Emb}}             % Manifold of Embendings
+
+% Lie algebras
+\newcommand{\g}{\mathfrak{g}}
+\newcommand{\gstar}{\mathfrak{g}^{*}}
+\newcommand{\h}{\mathfrak{h}}
+\newcommand{\oo}{\mathfrak{o}}
+\newcommand{\so}{\mathfrak{so}}
+\newcommand{\su}{\mathfrak{su}}
+\newcommand{\slc}{\mathfrak{sl}}
+\newcommand{\gl}{\mathfrak{gl}}
+\newcommand{\Vect}{\mathrm{Vect}}
+\newcommand{\SVect}{\mathrm{SVect}}
+\newcommand{\Kill}{\mathrm{Kill}}
+\newcommand{\Vectstar}{\mathrm{Vect}^{*}}
+\newcommand{\SVectstar}{\mathrm{SVect}^{*}}
+
+% Bold Greeks
+\newcommand{\bSigma}{{\pmb{\Sigma}}}
+\newcommand{\bOmega}{\bm{\Omega}}
+\newcommand{\bPi}{\bm{\Pi}}
+\newcommand{\bUpsilon}{\bm{\Upsilon}}
+
+\newcommand{\bbeta}{\bm{\eta}}
+\newcommand{\bgamma}{\bm{\gamma}}
+\newcommand{\eepsilon}{\bm{\varepsilon}}
+\newcommand{\bepsilon}{\bm{\epsilon}}
+\newcommand{\bsigma}{\bm{\sigma}}
+\newcommand{\btau}{\bm{\tau}}
+\newcommand{\bxi}{\bm{\xi}}
+\newcommand{\btheta}{\bm{\theta}}
+\newcommand{\bomega}{\bm{\omega}}
+\newcommand{\bchi}{\bm{\chi}}
+
+% Bold letters
+\newcommand{\bB}{\mathbf{B}}
+\newcommand{\bC}{\mathbf{C}}
+\newcommand{\bD}{\mathbf{D}}
+\newcommand{\bE}{\mathbf{E}}
+\newcommand{\bF}{\mathbf{F}}
+\newcommand{\bG}{\mathbf{G}}
+\newcommand{\bH}{\mathbf{H}}
+\newcommand{\bK}{\mathbf{K}}
+\newcommand{\bL}{\mathbf{L}}
+\newcommand{\bP}{\mathbf{P}}
+\newcommand{\bQ}{\mathbf{Q}}
+\newcommand{\bR}{\mathbf{R}}
+\newcommand{\bS}{\mathbf{S}}
+\newcommand{\bT}{\mathbf{T}}
+\newcommand{\XX}{\mathbf{X}}
+\newcommand{\WW}{\mathbf{W}}
+
+\newcommand{\ba}{\mathbf{a}}
+\newcommand{\bb}{\mathbf{b}}
+\newcommand{\bd}{\mathbf{d}}
+\newcommand{\be}{\mathbf{e}}
+\newcommand{\bh}{\mathbf{h}}
+\newcommand{\bk}{\mathbf{k}}
+\newcommand{\br}{\mathbf{r}}
+\newcommand{\bs}{\mathbf{s}}
+\newcommand{\bw}{\mathbf{w}}
+\newcommand{\xx}{\mathbf{x}}
+\newcommand{\yy}{\mathbf{y}}
+
+% Roman letters
+\newcommand{\qq}{\mathrm{q}}                % euclidean form
+\newcommand{\rp}{\mathrm{p}}                % polynomial in 3 variables
+\newcommand{\rd}{\mathrm{d}}                % polynomial in 3 variables
+\newcommand{\rh}{\mathrm{h}}                % harmonic polynomial in 3 variables
+\newcommand{\rk}{\mathrm{k}}                % harmonic polynomial in 3 variables
+
+% Vectors
+\newcommand{\vB}{\bm{B}}
+\newcommand{\vE}{\bm{E}}
+\newcommand{\vM}{\bm{M}}
+\newcommand{\vP}{\bm{P}}
+\newcommand{\ee}{\bm{e}}
+\newcommand{\mm}{\bm{m}}
+\newcommand{\nn}{\bm{n}}
+\newcommand{\uu}{\bm{u}}
+\newcommand{\vv}{\bm{v}}
+\newcommand{\ww}{\bm{w}}
+
+% Common
+\newcommand{\norm}[1]{\left\Vert#1\right\Vert}
+\newcommand{\abs}[1]{\left\vert#1\right\vert}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\Borel}{\mathcal{B}}            % Boreliean
+
+% Tensors
+\newcommand{\bq}{\mathbf{q}}                % Euclidean Metric
+\newcommand{\vol}{\mathrm{vol}}             % Riemannian volume
+\newcommand{\Ric}{\mathbf{Ric}}             % Ricci tensor
+\newcommand{\Ein}{\mathbf{S}}               % Einstein tensor
+\newcommand{\bt}{\mathbf{t}}
+
+\newcommand{\id}{\mathrm{id}}
+\newcommand{\Id}{\mathbf{Id}}
+
+% Operators
+\DeclareMathOperator{\tr}{Tr} %
+\DeclareMathOperator{\cof}{cof} %
+\DeclareMathOperator{\grad}{grad} %
+\DeclareMathOperator{\dive}{div} %
+\DeclareMathOperator{\2dots}{:}
+\DeclareMathOperator{\3dots}{\raisebox{-0.25ex}{\vdots}}
+
+% Derivatives
+%\newcommand{\dd}[2]{\frac{d{#1}}{d{#2}}}
+\newcommand{\dd}{{\mathrm d}}
+\newcommand{\pd}[2]{\frac{\partial{#1}}{\partial{#2}}}
+\newcommand{\pdd}[2]{\frac{\partial^{2}{#1}}{\partial^{2}{#2}}}
+\newcommand{\dcov}[2]{\frac{D_{#1}\,{#2}}{Dt}}
+\newcommand{\dmat}[2]{\frac{d_{#1}\,{#2}}{dt}}
+
+% Operators
+\DeclareMathOperator{\Rey}{R}
+\DeclareMathOperator{\Lie}{\mathcal{L}} %
+\DeclareMathOperator{\Tr}{Tr} %
+\DeclareMathOperator{\rot}{\mathbf{rot}} %
+\DeclareMathOperator{\Log}{Log} %
+\DeclareMathOperator{\Exp}{\mathrm{Exp}} %
+\DeclareMathOperator{\Ad}{Ad} %
+\DeclareMathOperator{\ad}{ad} %
+\DeclareMathOperator{\2dots}{:}
+\DeclareMathOperator{\3dots}{\raisebox{-0.25ex}{\vdots}}
+\DeclareMathOperator{\im}{Im} %
+\DeclareMathOperator{\re}{Re} %
+
+% #endregion
+
+% ----------------------------------------------------------------
+
+\begin{document}
+
+\title{The Haar measure in solid mechanics}
+
+% Clément ECKER
+\author{C. Ecker}
+\address[Clément Ecker]{Université Paris-Saclay, ENS Paris-Saclay, LMPS - Laboratoire de Mécanique Paris-Saclay, 91190, Gif-sur-Yvette, France}
+\email{clement.ecker@ens-paris-saclay.fr}
+
+% Boris KOLEV
+\author{B. Kolev}
+\address[Boris Kolev]{Université Paris-Saclay, ENS Paris-Saclay, CNRS,  LMT - Laboratoire de Mécanique et Technologie, 91190, Gif-sur-Yvette, France}
+\email{boris.kolev@ens-paris-saclay.fr}
+
+% Data
+\date{\today}%
+\subjclass[2020]{74B20; 74A05; 74A20; 58A10}
+\keywords{Haar measure; Lie groups; Invariant theory; Mathematics of solid mechanics}
+
+% -------------------- ABSTRACT --------------------
+
+\begin{abstract}
+  ABSTRACT
+\end{abstract}
+
+% -------------------- STRUCTURE --------------------
+
+\maketitle
+
+\tableofcontents
+
+% ----------------------------------------------------------------
+\section{Introduction}
+\label{sec:introduction}
+% ----------------------------------------------------------------
+
+INTRODUCTION
+
+\subsection*{Notations}
+
+% ----------------------------------------------------------------
+\section{Part 1}
+\label{sec:part1}
+% ----------------------------------------------------------------
+
+PART 1
+
+% ----------------------------------------------------------------
+\appendix
+% ----------------------------------------------------------------
+
+\section{FirstAppendix}
+\label{sec:appendix1}
+
+% ----------------------------------------------------------------
+\bibliographystyle{abbrv}
+\bibliography{biblio}
+\end{document}
+% ----------------------------------------------------------------

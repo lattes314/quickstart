@@ -1,0 +1,5 @@
+# Do not copy .venv or pycache
+.venv
+**/__pycache__/
+.vscode
+gitlabProfile.ini
