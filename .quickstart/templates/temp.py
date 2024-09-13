@@ -12,7 +12,7 @@ import sys
 
 def generate_project(directory):
     # src directory
-    src_directory = os.path.join(os.path.dirname(__file__),"src")
+    src_directory = os.path.join(os.path.dirname(__file__),"src","article")
     
     # copy gitignore file
     shutil.copyfile(os.path.join(src_directory,"LateXgitignore.gitignore"),os.path.join(directory,".gitignore"))

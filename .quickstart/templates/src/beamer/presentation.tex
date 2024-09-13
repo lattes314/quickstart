@@ -1,0 +1,53 @@
+% Relative path for the template
+\makeatletter
+\def\input@path{{./template/}}
+\makeatother
+
+\documentclass[aspectratio=169]{beamer}
+%%% Handout
+% \documentclass[aspectratio=169,handout]{beamer}
+%%% Handout print
+% \documentclass[aspectratio=169,handout]{beamer}
+% \usepackage{pgfpages}
+% \pgfpagesuselayout{4 on 1}[a4paper,border shrink=5mm,landscape]
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[all]{xy}
+
+\usetheme{lmpsecker}
+\usefonttheme{professionalfonts}
+
+% Bibliography
+\usepackage[
+    style=apa,
+    doi=true,isbn=false,url=false,eprint=false,
+    maxnames=1,minnames=1,maxbibnames=99,
+    sorting=ynt]{biblatex}
+\addbibresource{biblio.bib}
+
+% Appendix
+\usepackage{appendixnumberbeamer} % Fix numbering
+
+% Notation file
+\input{template/notations.tex}
+
+% Title file
+\input{template/titre.tex}
+
+\begin{document}
+
+\begin{frame}
+  \maketitle
+\end{frame}
+
+% Intro
+\input{sections/introduction.tex}
+
+% References
+\begin{frame}[allowframebreaks]{Réferences}
+  %\AtNextBibliography{\footnotesize}
+  \printbibliography
+\end{frame}
+
+\end{document}

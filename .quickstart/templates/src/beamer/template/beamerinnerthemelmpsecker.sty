@@ -1,0 +1,65 @@
+\mode<presentation>
+
+% Background of the title page
+\setbeamertemplate{background}{
+    \ifnum\thepage=1
+        \begin{tikzpicture}
+            \useasboundingbox (0,0) rectangle(\the\paperwidth,\the\paperheight);
+            \draw (0.5\paperwidth,0.812\paperheight) node {\includegraphics[width=\paperwidth]{images/top_background.png}};
+            \node [rectangle, left color=lmpsblue, right color=lmpsgrey, anchor=south, minimum width=\paperwidth, minimum height=0.12\paperheight] (box) at (current page.south) {};
+            \node [rectangle, left color=lmpsblue, right color=lmpsgrey, anchor=center, minimum width=\paperwidth, minimum height=0.12\paperheight] (boxfix) at (current page.south) {};
+            \node [minimum height=0.12\paperheight, anchor=west] at (box.west) {\includegraphics[height=0.12\paperheight]{images/lmps_logo.pdf}};
+            \node [minimum height=0.12\paperheight, anchor=east] at (box.east) {\includegraphics[height=0.06\paperheight]{images/logos.png}};
+        \end{tikzpicture}
+    \fi
+}
+
+% Title page
+\setbeamerfont{title}{size=\LARGE,parent=structure}
+\setbeamerfont{subtitle}{parent=structure}
+\setbeamerfont{author}{size=\small,parent=structure}
+\setbeamerfont{institute}{size=\scriptsize,parent=structure}
+\setbeamerfont{date}{parent=structure}
+
+
+\defbeamertemplate*{title page}{texsx}[1][]
+{
+    \vskip0.1\paperheight%
+    \begin{beamercolorbox}[wd=0.9\paperwidth,#1]{title page header}
+        \usebeamerfont{title}\inserttitle\par%
+        \usebeamerfont{subtitle}-\insertsubtitle\par%
+    \end{beamercolorbox}%
+    \vskip0.10\paperheight%
+    \begin{center}
+        ~
+        \begin{beamercolorbox}[wd=0.8\paperwidth,center,#1]{date}
+            \usebeamerfont{date}\insertdate%
+        \end{beamercolorbox}
+        ~
+    \end{center}
+    \begin{center}
+        ~
+        \begin{beamercolorbox}[wd=0.8\paperwidth,center,#1]{author}
+            \usebeamerfont{author}\insertauthor\\%
+        \end{beamercolorbox}
+        ~
+    \end{center}
+    \vspace{-2em}%
+    \begin{center}
+        ~
+        \begin{beamercolorbox}[wd=0.8\paperwidth,#1]{institute}
+            \begin{center}
+                \usebeamerfont{institute}\insertinstitute%
+            \end{center}
+        \end{beamercolorbox}
+        ~
+    \end{center}
+    \vfill
+}
+
+% Smaller itemize bullet
+\setbeamertemplate{itemize item}{\scriptsize\raise1.25pt\hbox{\donotcoloroutermaths$\blacktriangleright$}}
+\setbeamertemplate{itemize subitem}{\tiny\raise1.5pt\hbox{\donotcoloroutermaths$\blacktriangleright$}}
+\setbeamertemplate{itemize subsubitem}{\tiny\raise1.5pt\hbox{\donotcoloroutermaths$\blacktriangleright$}}
+
+\mode<all>

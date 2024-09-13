@@ -1,0 +1,34 @@
+\mode<presentation>
+
+% Headline : la navigation et le nombre de page
+\setbeamertemplate{headline}
+{%
+  \leavevmode
+  \ifnum\insertframenumber>1\relax%
+    \begin{beamercolorbox}[wd=\the\paperwidth,ht=0.6cm]{section in head/foot}
+      \begin{tikzpicture}
+        \useasboundingbox[fill=lmpsblue](0,0) rectangle(\the\paperwidth,0.6);
+        \fill[lmpsblue] (0,0) rectangle(0.3,0.6);
+        \fill[lmpsblue] (0.35,0) rectangle(\the\paperwidth,0.6);
+        \node[anchor= west, white] (navigation) at (0.3,0.3){\insertnavigation{0.85\paperwidth}};%
+        \node[anchor= east,white] at (0.97\paperwidth, 0.3) {\insertframenumber\,/\,\inserttotalframenumber};%
+      \end{tikzpicture}
+    \end{beamercolorbox}
+  \fi
+  \vskip-17pt% Hack: just to prevent overfull \vboxes
+}
+
+% Frame title
+\defbeamertemplate*{frametitle}{lmps_loiseau}[1][]
+{
+  \vskip1.5em%
+  \begin{beamercolorbox}[wd=\paperwidth,ht=1.2cm]{frametitle}
+    \begin{tikzpicture}
+      \useasboundingbox(0,0) rectangle(\the\paperwidth,1.2);
+      {\node[anchor=west, font=\large] at (0.25,0.61){\bfseries\insertframetitle};}
+    \end{tikzpicture}
+  \end{beamercolorbox}
+  \vspace{-1em}
+}
+
+\mode<all>
