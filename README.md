@@ -11,11 +11,11 @@ The Quickstart CLI Tool allows you to quickly initialize new projects based on p
 - Available templates :
     - `default` : redirect to the temp template.
     - `temp` : basic template for latex article (personal macros).
-    - `beamer` : custom beamer template.
     - `boiler` : boilerplate template (only creating a text file) that can be used as the minimal code for a template to run (also contains some useful information). 
 
 ### Future features
  - [ ] fix (or remove) the ssh-agent (no need to repeat ssh-key) ; 
+ - [ ] `beamer` template (LateX presentations) ;
  - [ ] `python` template (automatic virtual environment creation threw a requirement.txt file) ; 
  - [ ] `manim` template (math visualization) ;
  - [ ] add a support for github synch (switch between profiles) ;
