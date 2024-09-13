@@ -1,7 +1,7 @@
 # Quickstart CLI Tool
 
 ## Overview
-The Quickstart CLI Tool allows you to quickly initialize new projects based on predefined templates. It simplifies the process of setting up new project directories, including automatic GitLab initialization (for private GitLab instances).
+The Quickstart CLI Tool allows you to quickly initialize new projects based on predefined templates. It simplifies the process of setting up new project directories, including automatic GitLab initialization (for private GitLab instances). It has been inspired by the [kickstart project](https://github.com/Keats/kickstart.git) from Keats but the whole development was custom.
 
 ## Features
 
@@ -33,7 +33,7 @@ The python code is (not tested) OS agnostic but the installation script is only 
 ### Steps
 1. Clone the repository:
     ```sh
-    git clone https://gitlab.lmps.universite-paris-saclay.fr/ecker/quickstart.git
+    git clone https://github.com/lattes314/quickstart.git
     ```
 2. Run the installation script:
     ```sh
