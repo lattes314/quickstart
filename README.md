@@ -135,8 +135,6 @@ Fork the repository, make your changes, and submit a pull request.
 ## License
 This project is licensed under the MIT License.
 
-## Contact
-For questions or support, contact Clément Ecker at [clement.ecker@ens-paris-saclay.fr].
-
 ## Additional Resources
 - [Python Documentation](https://docs.python.org/3/)
+- [GitLab ssh connection guide](https://docs.gitlab.com/ee/user/ssh.html)
